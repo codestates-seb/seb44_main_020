@@ -9,3 +9,12 @@ export const StyledRoot = styled.div`
   flex-direction: column;
   background: #01123d;
 `;
+export const StyledWrapper = styled.main`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90vw;
+  flex-grow: 1;
+  overflow: hidden;
+  margin: 0 5vw;
+`;
