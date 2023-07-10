@@ -4,7 +4,7 @@ import StyledComponentsRegistry from '@/lib/registry';
 import GlobalStyle from '@/styles/Globalstyle';
 import { StyledRoot } from '@/styles/style';
 import { Inter } from 'next/font/google';
-
+import AuthContext from './_app';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -23,9 +23,11 @@ export default function RootLayout({
         <StyledComponentsRegistry>
           <StyledRoot>
             <GlobalStyle />
-            <Header />
-            {children}
-            <Footer />
+            <AuthContext>
+              <Header />
+              {children}
+              <Footer />
+            </AuthContext>
           </StyledRoot>
         </StyledComponentsRegistry>
       </body>
