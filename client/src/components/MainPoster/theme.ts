@@ -4,7 +4,13 @@ const theme={
         width:'250px',
         titleFontSize:'20px',
         posterTitleGap:'30px',
-        maxWidth:'230px',
+        maxWidth:'200px',
     },
+    myPage:{
+        width:'180px',
+        titleFontSize:'12px',
+        posterTitleGap:'10px',
+        maxWidth:'130px',
+    }
 };
 export default theme;

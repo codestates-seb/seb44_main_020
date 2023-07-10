@@ -5,6 +5,8 @@ import GlobalStyle from '@/styles/Globalstyle';
 import { StyledRoot } from '@/styles/style';
 import { Inter } from 'next/font/google';
 import AuthContext from './_app';
+import {Providers} from '@/redux/provider'
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
@@ -20,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
+        <Providers>
         <StyledComponentsRegistry>
           <StyledRoot>
             <GlobalStyle />
@@ -30,6 +33,7 @@ export default function RootLayout({
             </AuthContext>
           </StyledRoot>
         </StyledComponentsRegistry>
+        </Providers>
       </body>
     </html>
   );

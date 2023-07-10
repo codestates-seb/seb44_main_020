@@ -1,7 +1,6 @@
 package com.moovda_project.moovda.movie.entity.genre;
 
 import com.moovda_project.moovda.movie.entity.Movie;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

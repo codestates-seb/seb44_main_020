@@ -1,8 +1,7 @@
-package com.moovda_project.moovda.movie.entity.genre;
+package com.moovda_project.moovda.movie.repository.genre;
 
+import com.moovda_project.moovda.movie.entity.genre.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
 
 public interface GenreRepository extends JpaRepository<Genre,Long> {
     Genre findByName(String name);

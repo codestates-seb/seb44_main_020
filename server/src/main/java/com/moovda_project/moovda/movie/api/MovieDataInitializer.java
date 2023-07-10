@@ -1,7 +1,6 @@
-package com.moovda_project.moovda.movie.controller;
+package com.moovda_project.moovda.movie.api;
 
 
-import com.moovda_project.moovda.movie.service.ApiService;
 import org.springframework.stereotype.Component;
 
 
@@ -14,11 +13,11 @@ import java.net.URL;
 import java.io.BufferedReader;
 
 @Component
-public class ApiController {
+public class MovieDataInitializer {
 
     private final ApiService apiService;
 
-    public ApiController(ApiService apiService) {
+    public MovieDataInitializer(ApiService apiService) {
         this.apiService = apiService;
     }
 

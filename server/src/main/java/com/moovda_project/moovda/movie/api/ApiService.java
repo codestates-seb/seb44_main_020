@@ -1,12 +1,12 @@
-package com.moovda_project.moovda.movie.service;
+package com.moovda_project.moovda.movie.api;
 
 import com.moovda_project.moovda.movie.entity.Movie;
 import com.moovda_project.moovda.movie.entity.genre.Genre;
-import com.moovda_project.moovda.movie.entity.genre.GenreRepository;
+import com.moovda_project.moovda.movie.repository.genre.GenreRepository;
 import com.moovda_project.moovda.movie.entity.genre.MovieGenre;
 import com.moovda_project.moovda.movie.entity.staff.MovieStaff;
 import com.moovda_project.moovda.movie.entity.staff.Staff;
-import com.moovda_project.moovda.movie.entity.staff.StaffRepository;
+import com.moovda_project.moovda.movie.repository.staff.StaffRepository;
 import com.moovda_project.moovda.movie.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -16,8 +16,6 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -26,8 +24,6 @@ public class ApiService {
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
     private final StaffRepository staffRepository;
-
-
 
     public void init(String jsonData) {
         try {

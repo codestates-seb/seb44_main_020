@@ -33,4 +33,26 @@ public class Answer extends Auditable {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
+
+    public void addQuestion(Question question){
+        this.question = question;
+        if(this.question.getAnswers().contains(this)){
+            this.question.getAnswers().add(this);
+        }
+    }
+/*
+    public void addMember(Member member) {
+        this.member = member;
+        if(this.member.getAnswers().contains(this)){
+            this.member.getAnswers().add(this);
+        }
+    }
+
+    public void addMovie(Movie movie) {
+        this.movie = movie;
+        if(this.movie.getAnswers().contatins(this)) {
+            this.member.getAnswers().add(this);
+        }
+    }
+ */
 }

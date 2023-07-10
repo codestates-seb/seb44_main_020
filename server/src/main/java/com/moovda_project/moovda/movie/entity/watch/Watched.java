@@ -1,8 +1,8 @@
-package com.moovda_project.moovda.movie.entity;
+package com.moovda_project.moovda.movie.entity.watch;
 
 import com.moovda_project.moovda.audit.Auditable;
 import com.moovda_project.moovda.member.entity.Member;
-import lombok.AccessLevel;
+import com.moovda_project.moovda.movie.entity.Movie;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,14 +12,14 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "to_watch")
-public class ToWatch extends Auditable {
+@NoArgsConstructor()
+@Table(name = "watched")
+public class Watched extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "to_watch_id")
-    private Long toWatchId;
+    @Column(name = "watched_id")
+    private Long watchedId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
@@ -31,8 +31,8 @@ public class ToWatch extends Auditable {
 
     public void setMember(Member member) {
         this.member = member;
-        if(!this.member.getToWatchList().contains(this)) {
-            this.member.addToWatchList(this);
+        if(!this.member.getWatchedList().contains(this)) {
+            this.member.addWatchedList(this);
         }
     }
 }

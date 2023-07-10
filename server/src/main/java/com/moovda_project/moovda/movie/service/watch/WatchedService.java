@@ -1,9 +1,9 @@
-package com.moovda_project.moovda.movie.service;
+package com.moovda_project.moovda.movie.service.watch;
 
 import com.moovda_project.moovda.exception.BusinessLogicException;
 import com.moovda_project.moovda.exception.ExceptionCode;
-import com.moovda_project.moovda.movie.entity.Watched;
-import com.moovda_project.moovda.movie.repository.WatchedRepository;
+import com.moovda_project.moovda.movie.entity.watch.Watched;
+import com.moovda_project.moovda.movie.repository.watch.WatchedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

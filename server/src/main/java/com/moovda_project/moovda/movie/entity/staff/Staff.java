@@ -1,12 +1,10 @@
 package com.moovda_project.moovda.movie.entity.staff;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.print.attribute.standard.MediaSize;
 
 @Entity
 @NoArgsConstructor()

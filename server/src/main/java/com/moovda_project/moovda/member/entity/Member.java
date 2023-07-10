@@ -23,15 +23,24 @@ public class Member extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long memberId;
+    @Column(nullable = false, updatable = false, unique = true)
+    private String email;
 
-    @Column(nullable = false)
-    private String nickname;
+    @Column(length = 100, nullable = false)
+    private String password;
+
+//    @Column(nullable = false)
+//    private String nickname;
 
     @OneToMany(mappedBy = "member")
     private List<ToWatch> toWatchList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Watched> watchedList = new ArrayList<>();
+
+//    public Member(String nickname) {
+//        this.nickname = nickname;
+//    }
 
 
     public void addToWatchList(ToWatch toWatch) {
