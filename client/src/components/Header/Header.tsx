@@ -1,14 +1,13 @@
 'use client';
-
 import MoovDa from '@/assets/moovdaLogo.svg';
 import {
   faMagnifyingGlass,
   faPen,
   faRightToBracket,
+  faRightFromBracket,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {
   StyledHeader,
@@ -18,14 +17,16 @@ import {
   StyledLog,
   StyledLogo,
 } from './Header.styled';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 const Header = () => {
   const router = useRouter();
-
+  const { data: session, status } = useSession();
+  console.log(session);
   return (
     <StyledHeader>
       <StyledLogo>
-      <MoovDa />
+        <MoovDa />
       </StyledLogo>
       <StyledIconSearch>
         <FontAwesomeIcon
@@ -51,14 +52,14 @@ const Header = () => {
           onClick={() => router.push('/mypage')}
         />
       </StyledIconMyPage>
-      <StyledLog>
-        <FontAwesomeIcon
-          icon={faRightToBracket}
-          style={{ color: 'white' }}
-          size="xl"
-          onClick={() => router.push('/login')}
-        />
-      </StyledLog>
+      {session ? (
+        <StyledLog onClick={() => signOut()}>
+          LogOut
+          <p>{session.user?.name}님 환영합니다.</p>
+        </StyledLog>
+      ) : (
+        <StyledLog onClick={() => router.push('/login')}>LogIn</StyledLog>
+      )}
     </StyledHeader>
   );
 };
