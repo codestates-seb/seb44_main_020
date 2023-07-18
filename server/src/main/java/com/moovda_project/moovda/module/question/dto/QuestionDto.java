@@ -68,6 +68,8 @@ public class QuestionDto {
         @Positive
         private long questionId;
 
+        private String nickname;
+
         @Positive
         private long memberId;
 
