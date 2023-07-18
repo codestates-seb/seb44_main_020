@@ -1,10 +1,7 @@
 package com.moovda_project.moovda.module.answer.dto;
 
 import com.moovda_project.moovda.module.movie.entity.Movie;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -50,6 +47,7 @@ public class AnswerDto {
 
     @Getter
     @Setter
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response {
