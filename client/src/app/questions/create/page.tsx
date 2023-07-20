@@ -1,16 +1,17 @@
 'use client';
 
-import { WebEditor } from '@/components/Question/Webeditor';
 import * as S from '@/app/questions/create/page.styled';
-import { useId, useState } from 'react';
+import { WebEditor } from '@/components/Question/Webeditor';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useId, useState } from 'react';
 
 const QuestionCreatePage = () => {
   const router = useRouter();
   const [titleValue, setTitleValue] = useState<string>('');
   const [contentValue, setContentValue] = useState<string>('');
 
-  const onSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (titleValue.length < 5 || titleValue.length > 30) {
       alert('제목은 5자 이상, 30자 이하로 입력해주세요.');
       return;
@@ -19,7 +20,17 @@ const QuestionCreatePage = () => {
       alert('내용은 10자 이상 입력해주세요.');
       return;
     }
-    router.push('/questions/:questionId');
+
+    const source = `http://ec2-13-125-112-67.ap-northeast-2.compute.amazonaws.com:8080/questions`;
+    const response = await axios.post(source, {
+      // TODO: headers
+      // TODO: memberId 수정 필요
+      memberId: 1,
+      title: titleValue,
+      content: contentValue,
+    });
+    console.log(response);
+    if (response.status === 201) router.push(`/questions`);
   };
 
   return (
