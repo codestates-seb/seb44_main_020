@@ -6,6 +6,7 @@ import com.moovda_project.moovda.module.member.entity.Member;
 import com.moovda_project.moovda.module.member.repository.MemberRepository;
 import com.moovda_project.moovda.module.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -29,6 +30,9 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     private final MemberService memberService;
 
     private final MemberRepository memberRepository;
+
+    @Value("${redirect.uri}")
+    private String redirecturi;
 
 
     public OAuth2MemberSuccessHandler(JwtTokenizer jwtTokenizer,
@@ -56,6 +60,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh", refreshToken);
+
+        getRedirectStrategy().sendRedirect(request, response, redirecturi);
     }
 
     private String delegateAccessToken(String nickname, String email) {
@@ -83,5 +89,4 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         return refreshToken;
     }
-
 }
