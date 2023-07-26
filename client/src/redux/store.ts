@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import showDeletReducer from '@/redux/features/deleteSlice';
-import loginReducer from '@/redux/features/authSlice';
+import loginReducer from '@/redux/features/loginSlice';
 import draggingReducer from '@/redux/features/dragSlice';
 import commentReducer from '@/redux/features/commentSlice';
 import starReducer from '@/redux/features/starSlice';
@@ -11,7 +11,7 @@ import questionIdReducer from '@/redux/features/questionIdSlice';
 export const store = configureStore({
   reducer: {
     showDelete: showDeletReducer,
-    login: loginReducer,
+    loginState: loginReducer,
     drag: draggingReducer,
     comment: commentReducer,
     star: starReducer,
