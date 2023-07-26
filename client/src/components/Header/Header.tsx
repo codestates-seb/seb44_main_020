@@ -23,6 +23,7 @@ import { setLoginState } from '@/redux/features/loginSlice';
 import jwtDecode from 'jwt-decode';
 import { setMemberId, setNickname } from '@/redux/features/authSlice';
 import { useState, useEffect } from 'react';
+import { responseUserInfo } from '@/redux/features/userinfoSlice';
 
 interface DecodedAccessToken {
   memberId: number | null;
@@ -40,6 +41,7 @@ const Header = () => {
       const searchParams = new URLSearchParams(window.location.search);
       const Authorization: any = searchParams.get('Authorization');
       const refreshToken = searchParams.get('refresh_token');
+      dispatch(setLoginState(false));
       console.log('Authorization: ', Authorization);
       // setAuthorization(Authorization);
       // setRefreshToken(refreshToken);
@@ -54,7 +56,6 @@ const Header = () => {
 
         localStorage.setItem('Authorization', Authorization);
         const storedAccessToken = localStorage.getItem('Authorization');
-
         if (storedAccessToken !== null) {
           dispatch(setLoginState(true));
         } else {
@@ -72,11 +73,18 @@ const Header = () => {
   console.log('memberId: ', memberId);
 
   const handleMypageClick = () => {
-    if (memberId) {
+    if (loginState === false) {
+      alert('로그인 후 이용하세요!');
+    } else if (memberId) {
       router.push(`/mypage?memberId=${memberId}`);
     }
   };
-
+  const handleLogout = () => {
+    dispatch(setLoginState(false));
+    localStorage.clear();
+    dispatch(responseUserInfo({ memberId: null, nickname: '' }));
+    router.push('/');
+  };
   return (
     <StyledBody>
       <StyledHeader>
@@ -107,13 +115,14 @@ const Header = () => {
             onClick={handleMypageClick}
           />
         </StyledIconMyPage>
-        {loginState === true ? (
-          <StyledLog>
-            LogOut
-            <p>{nickname}님 환영합니다.</p>
-          </StyledLog>
+        {loginState === false ? (
+          <>
+            <StyledLog onClick={() => router.push('/login')}>Login</StyledLog>
+          </>
         ) : (
-          <StyledLog onClick={() => router.push('/login')}>LogIn</StyledLog>
+          <>
+            <StyledLog onClick={handleLogout}>LogOut</StyledLog>
+          </>
         )}
       </StyledHeader>
     </StyledBody>
