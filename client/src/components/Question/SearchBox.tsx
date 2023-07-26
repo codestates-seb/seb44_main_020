@@ -54,7 +54,6 @@ const SearchBox = ({ onSubmit, defaultValue }: SearchBoxProps) => {
   );
 
   const onSelectMovie = (movie: SearchMovieList) => {
-    // console.log(movie.title);
     setSelectedMovie(movie);
   };
 

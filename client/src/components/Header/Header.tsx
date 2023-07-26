@@ -77,6 +77,8 @@ const Header = () => {
       alert('로그인 후 이용하세요!');
     } else if (memberId) {
       router.push(`/mypage?memberId=${memberId}`);
+    if (memberId) {
+      router.push(`/mypage/${memberId}`);
     }
   };
 

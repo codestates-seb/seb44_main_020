@@ -46,7 +46,6 @@ const QuestionDetailPage = () => {
     totalPages: 0,
   });
 
-  // 작성자인지 아닌지 체크
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
   const [questionAndAnswer, setQuestionAndAnswer] =
     useState<QuestionDetailResponse | null>(null);
@@ -78,10 +77,11 @@ const QuestionDetailPage = () => {
   }) => {
     const source = `${process.env.NEXT_PUBLIC_API_URL}/questions/${questionId}/answers`;
     const body = {
-      memberId: 1,
+      memberId: userId,
       content: textValue,
       title: selectedMovie.title,
       poster: selectedMovie.poster,
+      prodYear: selectedMovie.prodYear,
     };
 
     await axios.post(source, body, {
@@ -144,7 +144,7 @@ const AnswerCountBox = ({ question }: AnswerCountBoxProps) => {
   return (
     <S.AnswerCountContainer>
       <S.AnswerCountBox>
-        댓글<span>{question?.answerCount}</span>
+        댓글&nbsp;&nbsp;<span>{question?.answerCount}</span>
       </S.AnswerCountBox>
     </S.AnswerCountContainer>
   );
@@ -177,6 +177,7 @@ interface BoxTopProps {
 const BoxTop = ({ isAuthor, question }: BoxTopProps) => {
   const router = useRouter();
   const { questionId } = useParams();
+  const userId = useSelector((state: RootState) => state.auth.memberId);
 
   const onDelete = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
@@ -192,20 +193,10 @@ const BoxTop = ({ isAuthor, question }: BoxTopProps) => {
     router.push('/questions');
   };
 
-  const EditButton = () => {
-    const dispatch = useDispatch();
-    dispatch(setQuestionId(Number(questionId)));
-  };
-
   return (
     <S.BoxTop>
       <S.LeftBox>
-        <S.Nickname
-          onClick={() =>
-            // TODO: 회원 === 글작성자 => 본인 mypage || 회원 != 글작성자 => 글작성자 mypage
-            router.push('/mypage')
-          }
-        >
+        <S.Nickname onClick={() => router.push(`/mypage/${userId}`)}>
           {question?.nickname}
         </S.Nickname>
         <S.Time>
@@ -215,7 +206,7 @@ const BoxTop = ({ isAuthor, question }: BoxTopProps) => {
       <S.RightBox>
         {isAuthor && (
           <Link href={`/questions/edit/${questionId}`}>
-            <S.EditBtn onClick={EditButton}>수정</S.EditBtn>
+            <S.EditBtn>수정</S.EditBtn>
           </Link>
         )}
         {isAuthor && <S.DeleteBtn onClick={onDelete}>삭제</S.DeleteBtn>}

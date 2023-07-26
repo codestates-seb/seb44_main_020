@@ -9,7 +9,7 @@ export const AnswerBoxGroup = styled.div`
 `;
 
 export const AnswerBox = styled.div`
-  background-color: rgba(17, 19, 33 0.7);
+  background-color: #334163;
   width: 1024px;
   border-radius: 12px;
   margin: 1rem;

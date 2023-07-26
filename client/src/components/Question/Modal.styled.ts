@@ -15,12 +15,9 @@ export const ModalWrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  /* 초록색 */
-  border: 10px solid green;
 `;
 
 export const ModalContent = styled.div`
-  /* background-color: rgba(1, 11, 39, 0.9); */
   background-color: rgba(256, 256, 256, 0.9);
   padding: 0.5rem;
   color: black;
@@ -33,19 +30,6 @@ export const ModalContent = styled.div`
 `;
 
 export const SubmitButton = styled.button`
-  /* background-color: #3671e3;
-  justify-content: flex-end;
-  border: 1px solid rgba(255, 255, 255, 0);
-  color: white;
-  font-weight: 700;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  &:hover {
-    background-color: #111321;
-    color: white;
-  }
-  margin-bottom: 1rem;
-  margin-right: 1rem; */
   background-color: transparent;
   border: transparent;
   margin-right: 0.5rem;
@@ -89,7 +73,6 @@ export const SearchInputAndSearchedList = styled.div`
 
 export const SearchedListBox = styled.div`
   padding: 0.75rem;
-  /* border: 3px solid white; */
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -102,14 +85,12 @@ export const SearchedListBox = styled.div`
 `;
 
 export const SearchedMovieBox = styled.div`
-  /* border: 10px solid yellow; */
   &:hover {
     background-color: #c2c2c2;
     cursor: pointer;
   }
   display: flex;
   background-color: white;
-  /* border-top: 3px solid #bdbdbd; */
   height: 64px;
 `;
 
@@ -128,7 +109,6 @@ export const SearchedMovieProdYear = styled.p`
 
 export const SearchContainer = styled.div`
   display: flex;
-  /* border: 10px solid yellow; */
   padding: 0rem 1rem;
   margin-bottom: 1rem;
   border-radius: 1rem;

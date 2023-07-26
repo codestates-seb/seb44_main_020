@@ -3,9 +3,9 @@
 import * as S from '@/app/questions/page.styled';
 import { QuestionBox } from '@/components/Question/QuestionBox';
 import axios from 'axios';
+import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
 
 export interface QuestionItem {
   questionId: string;

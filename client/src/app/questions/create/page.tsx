@@ -1,14 +1,17 @@
 'use client';
 
 import * as S from '@/app/questions/create/page.styled';
+import { RootState } from '@/redux/store';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useId, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const QuestionCreatePage = () => {
   const router = useRouter();
   const [titleValue, setTitleValue] = useState<string>('');
   const [contentValue, setContentValue] = useState<string>('');
+  const userId = useSelector((state: RootState) => state.auth.memberId);
 
   const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (titleValue.length < 5 || titleValue.length > 30) {
@@ -21,14 +24,13 @@ const QuestionCreatePage = () => {
     }
 
     const source = `${process.env.NEXT_PUBLIC_API_URL}/questions`;
-    const body = { memberId: 1, title: titleValue, content: contentValue };
+    const body = { memberId: userId, title: titleValue, content: contentValue };
     const response = await axios.post(source, body, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: localStorage.getItem('Authorization'),
       },
     });
-    console.log(response);
     if (response.status === 201) router.push(`/questions`);
   };
 

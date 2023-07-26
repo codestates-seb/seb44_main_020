@@ -1,25 +1,14 @@
 'use client';
 
 import * as S from '@/app/questions/edit/[questionId]/page.styled';
-import { RootState } from '@/redux/store';
 import axios from 'axios';
-// import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useId, useState } from 'react';
-import { useSelector } from 'react-redux';
-
-// const WebEditor = dynamic(() => import('@/components/Question/Webeditor'), {
-//   ssr: false,
-// });
 
 const QuestionEditPage = () => {
   const router = useRouter();
   const [titleValue, setTitleValue] = useState<string>('');
   const [contentValue, setContentValue] = useState<string>('');
-  // const questionId = useSelector(
-  //   (state: RootState) => state.questionId?.questionId,
-  // );
-  // console.log(questionId);
   const { questionId } = useParams();
 
   useEffect(() => {
@@ -33,11 +22,9 @@ const QuestionEditPage = () => {
       });
       setTitleValue(response.data.title);
       setContentValue(response.data.content);
-      // setQuestionId(response.data.question.questionId);
     };
     getQuestion();
   }, []);
-  console.log('questionId', questionId);
 
   const onSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (titleValue.length < 5 || titleValue.length > 30) {

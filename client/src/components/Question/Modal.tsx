@@ -5,7 +5,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import Link from 'next/link';
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
 interface ModalProps {
@@ -14,9 +14,6 @@ interface ModalProps {
 
 const Modal = ({ onSelectItem }: ModalProps) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const { questionId } = useParams();
-  const isModalOpen = searchParams.get('modal') === 'true';
 
   const onSelectMovie = (movie: SearchMovieList) => {
     onSelectItem(movie);
@@ -26,7 +23,7 @@ const Modal = ({ onSelectItem }: ModalProps) => {
     <S.ModalWrapper>
       <S.ModalContent>
         <div>
-          <Link href={pathname}>
+          <Link href={pathname} replace>
             <S.SubmitButton>
               <S.ClosedIcon />
             </S.SubmitButton>
@@ -65,7 +62,7 @@ export interface SearchMovieList {
   movieId: string;
   title: string;
   poster: string;
-  prodYear: string;
+  prodYear: number | string;
   pageInfo: {
     currentPage: number;
     pageSize: number;

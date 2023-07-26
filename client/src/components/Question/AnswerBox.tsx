@@ -7,6 +7,7 @@ import {
   deleteAnswerList,
   editAnswerList,
 } from '@/redux/features/answerListSlice';
+import { RootState } from '@/redux/store';
 import axios from 'axios';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -14,7 +15,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SearchMovieList } from './Modal';
 import SearchBox from './SearchBox';
-import { RootState } from '@/redux/store';
 
 interface AnswerBoxProps {
   answer: AnswerType;
@@ -38,19 +38,6 @@ const AnswerBox = ({ answer, question }: AnswerBoxProps) => {
     selectedMovie?: SearchMovieList;
     textValue: string;
   }) => {
-    dispatch(
-      editAnswerList({
-        answerId: answer.answerId,
-        nickname: answer.nickname,
-        content: textValue,
-        movie: {
-          title: selectedMovie?.title,
-          poster: selectedMovie?.poster,
-          prodYear: selectedMovie?.prodYear,
-        },
-      }),
-    );
-
     const source = `${process.env.NEXT_PUBLIC_API_URL}/questions/${questionId}/answers/${answerId}`;
     const body = {
       answerId: answer.answerId,
@@ -69,21 +56,19 @@ const AnswerBox = ({ answer, question }: AnswerBoxProps) => {
       },
     });
     setIsEditing(false);
-    console.log('response', response);
 
-    // NOTE: 대비책
-    // const response = await fetch(source, {
-    //   method: 'PATCH',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //
-    //   },
-    //   body: JSON.stringify(body),
-    // });
-    // console.log('response', response);
-
-    // const result = await response.json();
-    // console.log('result', result);
+    dispatch(
+      editAnswerList({
+        answerId: answer.answerId,
+        nickname: answer.nickname,
+        content: textValue,
+        movie: {
+          title: selectedMovie?.title,
+          poster: selectedMovie?.poster,
+          prodYear: selectedMovie?.prodYear,
+        },
+      }),
+    );
   };
 
   return (
@@ -157,20 +142,19 @@ const AnswerBoxTop = ({ onEditClick, answer, question }: AnswerBoxTopProps) => {
   return (
     <S.BoxTop>
       <S.LeftBox>
-        {/* // TODO: 회원 === 글작성자 -> 본인 mypage || 회원 != 글작성자 -> 글작성자 mypage  ???현재 받아오는 answer.memberId가 없음*/}
-        <Link href={'/mypage'}>
+        <Link href={`/mypage/${userId}`}>
           <S.Nickname>{answer.nickname}</S.Nickname>
         </Link>
         <S.Time>
           {question?.createdAt ? AnswerDate(new Date(question.createdAt)) : ''}
         </S.Time>
       </S.LeftBox>
-      {/* {isAuthor && ( */}
-      <S.RightBox>
-        <S.EditBtn onClick={onEditClick}>수정</S.EditBtn>
-        <S.DeleteBtn onClick={handleDeleteAnswer}>삭제</S.DeleteBtn>
-      </S.RightBox>
-      {/* )} */}
+      {isAuthor && (
+        <S.RightBox>
+          <S.EditBtn onClick={onEditClick}>수정</S.EditBtn>
+          <S.DeleteBtn onClick={handleDeleteAnswer}>삭제</S.DeleteBtn>
+        </S.RightBox>
+      )}
     </S.BoxTop>
   );
 };
