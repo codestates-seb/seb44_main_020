@@ -9,7 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
-
+import { useState, useEffect } from 'react';
 import {
   StyledHeader,
   StyledIconAsk,
@@ -19,10 +19,10 @@ import {
   StyledLogo,
   StyledBody,
 } from './Header.styled';
-import { setLoginState } from '@/redux/features/loginSlice';
 import jwtDecode from 'jwt-decode';
+
+import { setLoginState } from '@/redux/features/loginSlice';
 import { setMemberId, setNickname } from '@/redux/features/authSlice';
-import { useState, useEffect } from 'react';
 import { responseUserInfo } from '@/redux/features/userinfoSlice';
 
 interface DecodedAccessToken {
@@ -33,6 +33,13 @@ interface DecodedAccessToken {
 const Header = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const loginState = useSelector((state: RootState) => state.loginState);
+  const memberId = useSelector((state: RootState) => state.auth.memberId);
+  const nickname = useSelector((state: RootState) => state.auth.nickname);
+  console.log('nickname: ', nickname);
+  console.log('memberId: ', memberId);
+  console.log('loginState:', loginState);
+
   // const [Authorization, setAuthorization] = useState<string | null>(null);
   // const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
@@ -42,7 +49,6 @@ const Header = () => {
       const Authorization: any = searchParams.get('Authorization');
       const refreshToken = searchParams.get('refresh_token');
       dispatch(setLoginState(false));
-      console.log('Authorization: ', Authorization);
       // setAuthorization(Authorization);
       // setRefreshToken(refreshToken);
 
@@ -66,12 +72,6 @@ const Header = () => {
     }
   }, [router, dispatch]);
 
-  const loginState = useSelector((state: any) => state.login);
-  const memberId = useSelector((state: RootState) => state.auth.memberId);
-  const nickname = useSelector((state: RootState) => state.auth.nickname);
-  console.log('nickname: ', nickname);
-  console.log('memberId: ', memberId);
-
   const handleMypageClick = () => {
     if (loginState === false) {
       alert('로그인 후 이용하세요!');
@@ -79,12 +79,14 @@ const Header = () => {
       router.push(`/mypage?memberId=${memberId}`);
     }
   };
+
   const handleLogout = () => {
     dispatch(setLoginState(false));
     localStorage.clear();
     dispatch(responseUserInfo({ memberId: null, nickname: '' }));
     router.push('/');
   };
+  console.log(loginState);
   return (
     <StyledBody>
       <StyledHeader>
@@ -115,13 +117,13 @@ const Header = () => {
             onClick={handleMypageClick}
           />
         </StyledIconMyPage>
-        {loginState === false ? (
+        {loginState === true ? (
           <>
-            <StyledLog onClick={() => router.push('/login')}>Login</StyledLog>
+            <StyledLog onClick={handleLogout}>LogOut</StyledLog>
           </>
         ) : (
           <>
-            <StyledLog onClick={handleLogout}>LogOut</StyledLog>
+            <StyledLog onClick={() => router.push('/login')}>Login</StyledLog>
           </>
         )}
       </StyledHeader>
