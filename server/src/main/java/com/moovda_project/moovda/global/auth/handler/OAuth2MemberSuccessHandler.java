@@ -97,7 +97,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("https")
-                .host("seb44-main-020-sandy.vercel.app")
+                .host("moovda.vercel.app")
                 .queryParams(queryParams)
                 .build()
                 .toUri();

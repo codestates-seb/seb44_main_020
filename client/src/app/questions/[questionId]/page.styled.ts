@@ -33,14 +33,18 @@ export const goMenuBtn = styled.button`
 
 export const AnswerCountContainer = styled.div`
   display: flex;
-  justify-content: flex-start;
+  width: 1024px;
 `;
 
-export const AnswerCountBox = styled.div``;
+export const AnswerCountBox = styled.div`
+  display: flex;
+  font-weight: 600;
+  font-size: large;
+`;
 
 export const AskBox = styled.div`
   width: 1024px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #162135;
   padding: 1rem;
   margin: 0.75rem 1rem;
   border: 0.5px solid #8a97ab;
@@ -50,6 +54,7 @@ export const AskBox = styled.div`
 export const BoxTop = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 0.75rem;
 `;
 
 export const LeftBox = styled.div`
@@ -103,9 +108,9 @@ export const DeleteBtn = styled.button`
   align-items: center;
 `;
 
-export const BoxTitle = styled.h2`
+export const BoxTitle = styled.h3`
   font-weight: bold;
-  margin: 0px 0px 8px 8px;
+  margin: 0px 0px 12px 8px;
 `;
 
 export const BoxMid = styled.div`
@@ -113,7 +118,7 @@ export const BoxMid = styled.div`
 `;
 
 export const ContentBox = styled.div`
-  margin: 12px 8px 0px 8px;
+  margin: 16px 8px 0px 8px;
 `;
 
 export const PageBottom = styled.div`

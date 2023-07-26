@@ -11,7 +11,8 @@ export const SearchBoxGroup = styled.div`
 export const SearchBox = styled.div`
   margin: 1.5rem 1rem;
   width: 1024px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #334163;
+
   border-radius: 16px;
   padding: 1rem;
 `;

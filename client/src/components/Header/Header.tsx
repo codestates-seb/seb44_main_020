@@ -73,20 +73,11 @@ const Header = () => {
   }, [router, dispatch]);
 
   const handleMypageClick = () => {
-    if (loginState === false) {
-      alert('로그인 후 이용하세요!');
-    } else if (memberId) {
+    if (memberId) {
       router.push(`/mypage?memberId=${memberId}`);
     }
   };
 
-  const handleLogout = () => {
-    dispatch(setLoginState(false));
-    localStorage.clear();
-    dispatch(responseUserInfo({ memberId: null, nickname: '' }));
-    router.push('/');
-  };
-  console.log(loginState);
   return (
     <StyledBody>
       <StyledHeader>
@@ -122,9 +113,7 @@ const Header = () => {
             <StyledLog onClick={handleLogout}>LogOut</StyledLog>
           </>
         ) : (
-          <>
-            <StyledLog onClick={() => router.push('/login')}>Login</StyledLog>
-          </>
+          <StyledLog onClick={() => router.push('/login')}>LogIn</StyledLog>
         )}
       </StyledHeader>
     </StyledBody>
