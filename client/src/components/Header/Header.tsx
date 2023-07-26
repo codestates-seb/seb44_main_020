@@ -73,51 +73,64 @@ const Header = () => {
   }, [router, dispatch]);
 
   const handleMypageClick = () => {
-    if (memberId) {
+    if (loginState === false) {
+      alert('로그인 후 이용하세요!');
+    } else if (memberId) {
       router.push(`/mypage?memberId=${memberId}`);
+      if (memberId) {
+        router.push(`/mypage/${memberId}`);
+      }
     }
+
+    const handleLogout = () => {
+      dispatch(setLoginState(false));
+      localStorage.clear();
+      dispatch(responseUserInfo({ memberId: null, nickname: '' }));
+      router.push('/');
+    };
+    console.log(loginState);
+    return (
+      <StyledBody>
+        <StyledHeader>
+          <StyledLogo>
+            <MoovDa onClick={() => router.push('/')} />
+          </StyledLogo>
+          <StyledIconSearch>
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              style={{ color: 'white' }}
+              size="xl"
+              onClick={() => router.push('/search')}
+            />
+          </StyledIconSearch>
+          <StyledIconAsk>
+            <FontAwesomeIcon
+              icon={faPen}
+              style={{ color: 'white' }}
+              size="xl"
+              onClick={() => router.push('/questions')}
+            />
+          </StyledIconAsk>
+          <StyledIconMyPage>
+            <FontAwesomeIcon
+              icon={faUser}
+              style={{ color: 'white' }}
+              size="xl"
+              onClick={handleMypageClick}
+            />
+          </StyledIconMyPage>
+          {loginState === true ? (
+            <>
+              <StyledLog onClick={handleLogout}>LogOut</StyledLog>
+            </>
+          ) : (
+            <>
+              <StyledLog onClick={() => router.push('/login')}>Login</StyledLog>
+            </>
+          )}
+        </StyledHeader>
+      </StyledBody>
+    );
   };
-
-  return (
-    <StyledBody>
-      <StyledHeader>
-        <StyledLogo>
-          <MoovDa onClick={() => router.push('/')} />
-        </StyledLogo>
-        <StyledIconSearch>
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            style={{ color: 'white' }}
-            size="xl"
-            onClick={() => router.push('/search')}
-          />
-        </StyledIconSearch>
-        <StyledIconAsk>
-          <FontAwesomeIcon
-            icon={faPen}
-            style={{ color: 'white' }}
-            size="xl"
-            onClick={() => router.push('/questions')}
-          />
-        </StyledIconAsk>
-        <StyledIconMyPage>
-          <FontAwesomeIcon
-            icon={faUser}
-            style={{ color: 'white' }}
-            size="xl"
-            onClick={handleMypageClick}
-          />
-        </StyledIconMyPage>
-        {loginState === true ? (
-          <>
-            <StyledLog onClick={handleLogout}>LogOut</StyledLog>
-          </>
-        ) : (
-          <StyledLog onClick={() => router.push('/login')}>LogIn</StyledLog>
-        )}
-      </StyledHeader>
-    </StyledBody>
-  );
 };
-
 export default Header;
