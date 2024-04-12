@@ -1,20 +1,19 @@
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { api } from '@/services/api';
-import * as S from './page.styled';
-import { ThemeProvider } from 'styled-components';
 import MainCarousel from '@/components/MainCarousel/MainCarousel';
 import { MainPoster } from '@/components/MainPoster/MainPoster';
-import theme from '@/components/MainPoster/theme';
 import MoovDa from '@/assets/moovdaLogo.svg';
+import * as S from './page.styled';
+import { ThemeProvider } from 'styled-components';
+import theme from '@/components/MainPoster/theme';
 
 export default function MainPage() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    api
-      .get('/movies/main')
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/movies/main`)
       .then((res) => {
         setData(res.data);
       })

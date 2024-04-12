@@ -4,6 +4,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import axios from 'axios';
 import { setLoginState } from '@/redux/features/loginSlice';
 import { click } from '@/redux/features/deleteSlice';
 import { MainPoster } from '@/components/MainPoster/MainPoster';
@@ -11,7 +12,6 @@ import MyCarousel from '@/components/MyCarousel/MyCarousel';
 import * as S from './page.styled';
 import { ThemeProvider } from 'styled-components';
 import theme from '@/components/MainPoster/theme';
-import { fetchData, deleteData } from '@/services/api';
 
 interface ToWatch {
   movieId: number;
@@ -34,54 +34,47 @@ interface My {
 
 export default function MyPage() {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const [data, setData] = useState<My | null>(null);
   const { memberId } = useParams();
   const memberIdtoNumber = Number(memberId);
   const userId = useSelector((state: RootState) => state.auth.memberId);
 
-  const [data, setData] = useState<My | null>(null);
+  const dispatch = useDispatch();
 
-  // 나머지 코드는 이전과 동일합니다.
-
-  useEffect(() => {
-    fetchDataHandler();
-  }, []);
-
-  //마이페이지 정보 조회
-  const fetchDataHandler = useCallback(async () => {
-    try {
-      const result = await fetchData(`/members/${memberId}`);
-      setData(result);
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  }, [memberId]);
-
-  // 회원삭제
-  const handleDelete = async () => {
-    if (window.confirm('삭제하시겠습니까?')) {
-      try {
-        await deleteData(`/members/${memberId}`);
-        handleLogout();
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    }
-  };
-
-  //로그아웃
-  const handleLogout = () => {
-    dispatch(setLoginState(false));
-    localStorage.clear();
-    signOut();
-    alert('회원 정보가 삭제되었습니다.');
-    router.push('/');
-  };
-
-  //삭제 버튼 노출
   const handleShowDelete = () => {
     dispatch(click());
   };
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/members/${memberId}`)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, []);
+
+  // 회원삭제
+  const handleDelete = useCallback(() => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      axios
+        .delete(`${process.env.NEXT_PUBLIC_API_URL}/members/${memberId}`)
+        .then(() => {
+          //로그아웃
+          dispatch(setLoginState(false));
+          localStorage.clear();
+          signOut();
+          alert('회원 정보가 삭제되었습니다.');
+          //메인으로 redirect
+          router.push('/');
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  }, [memberId]);
 
   const toWatchlist = data?.toWatch?.map((list) => (
     <ThemeProvider theme={theme.myPage} key={list.movieId}>
@@ -138,9 +131,7 @@ export default function MyPage() {
               )}
             </S.SectionContent>
           </S.Section>
-
-          {/*로그인한 본인일 때만 회원 삭제 섹션 노출 */}
-          {userId === memberIdtoNumber && (
+          {userId === memberIdtoNumber ? (
             <S.Section>
               <S.SectionTitle>
                 <S.Title>계정 관리</S.Title>
@@ -150,6 +141,8 @@ export default function MyPage() {
                 <S.DeleteBtn onClick={handleDelete}>삭제하기</S.DeleteBtn>
               </S.DeleteContainter>
             </S.Section>
+          ) : (
+            ''
           )}
         </S.SectionWrapper>
       </S.Container>
